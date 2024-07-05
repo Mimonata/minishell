@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 20:02:36 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/05 20:09:55 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/05 20:18:08 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,12 @@ int main() {
 git pull origin master
 
 git checkout -b 
+
+do not push to master branch
+accidently made "smiley" the default branch... 
+
+
+
+
 
 */
