@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 20:02:36 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/05 20:18:08 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/06 15:50:33 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ git checkout -b
 do not push to master branch
 accidently made "smiley" the default branch... 
 
+git checkout origin <branch> switches you to another branch
 
 
 
