@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/07 21:03:12 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/08 20:19:22 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,9 @@ typedef struct s_tools
 {
 	char	**env;
 }			t_tools;
+
+int	shell_loop(t_tools tools);
+
+
 
 #endif

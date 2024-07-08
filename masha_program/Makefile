@@ -32,7 +32,7 @@ runlibft:
 
 
 $(NAME): runlibft $(OBJS) 
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME) 
 
 clean:
 	rm -f $(OBJS)
