@@ -6,22 +6,16 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/09 16:05:38 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/09 17:14:35 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
-#include <readline/history.h>
-#include <readline/readline.h>
 
-// #include
 
-// int	main(int argc, char **argv, char **env)
 int	main(int argc, char **argv, char **env)
 {
 	t_tools	tools;
-
-	// char arr[10];
 	if (argc > 1 && argv[1])
 	{
 		ft_putstr_fd("This program does not accept arguments\n", 2);
