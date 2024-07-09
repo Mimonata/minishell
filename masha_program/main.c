@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/09 17:14:35 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:51:59 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	main(int argc, char **argv, char **env)
 	{
 		ft_putstr_fd("This program does not accept arguments\n", 2);
 	}
-	tools.env = copy_env(env);
+	tools.env = env;
+	// tools.env = copy_env(env);
 	shell_loop(tools);
 	clear_history();
 	return (0);
@@ -36,6 +37,7 @@ int	shell_loop(t_tools tools)
 	{
 		return (1);
 	}
+	lex_it(line);
 	add_history(line);
 	printf("%s\n", line);
 	free(line);
