@@ -1,1 +1,2 @@
-2
+cat << LIMITER | wc -l > output.txt
+LIMITER

@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/08 20:20:20 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:05:38 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ int	main(int argc, char **argv, char **env)
 	{
 		ft_putstr_fd("This program does not accept arguments\n", 2);
 	}
-	tools.env = env;
+	tools.env = copy_env(env);
 	shell_loop(tools);
+	clear_history();
 	return (0);
 }
 
@@ -41,6 +42,7 @@ int	shell_loop(t_tools tools)
 	{
 		return (1);
 	}
+	add_history(line);
 	printf("%s\n", line);
 	free(line);
 	return (0);

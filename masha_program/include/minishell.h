@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/08 20:19:22 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:57:09 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct	s_tools
 typedef struct	cmd_struct_s
 {
 
-}				cmd_struct_t
+}				cmd_struct_t;
 
 int	shell_loop(t_tools tools);
 
