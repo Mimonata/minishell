@@ -23,10 +23,15 @@
 # include <string.h>
 # include <unistd.h>
 
-typedef struct s_tools
+typedef struct	s_tools
 {
 	char	**env;
 }			t_tools;
+
+typedef struct	cmd_struct_s
+{
+
+}				cmd_struct_t
 
 int	shell_loop(t_tools tools);
 

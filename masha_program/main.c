@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char **env)
 	t_tools	tools;
 
 	// char arr[10];
-	if (argc > 1 && argv[0])
+	if (argc > 1 && argv[1])
 	{
 		ft_putstr_fd("This program does not accept arguments\n", 2);
 	}
