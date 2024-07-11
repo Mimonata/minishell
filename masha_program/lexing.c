@@ -6,13 +6,13 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:07:28 by spitul            #+#    #+#             */
-/*   Updated: 2024/07/09 19:58:10 by spitul           ###   ########.fr       */
+/*   Updated: 2024/07/11 19:27:59 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	skip_spaces(char *s)
+static void	skip_spaces(char *s)
 {
 	if (!s || !*s)
 		return ;
@@ -20,7 +20,7 @@ void	skip_spaces(char *s)
 		s ++;	
 }
 
-void	quotes_check(char *s)
+static void	quotes_check(char *s)
 {
 	if (!s || !*s)
 		return ;
