@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/09 19:19:19 by myakoven         ###   ########.fr       */
+/*   Created: 2024/07/09 19:22:37 by myakoven          #+#    #+#             */
+/*   Updated: 2024/07/09 19:30:28 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**copy_env(char **env)
-{
-	char **envp;
-	int len_pointers;
-	int lenTemp;
-	// TODO
-	len_pointers = 0;
-	// len_pointers = ft_strlen(env) / sizeof(char *);
-	while (env[len_pointers] != NULL)
-	{
-		len_pointers++;
-	}
-	envp = malloc((len_pointers + 1) * sizeof(char *));
-	if (!envp)
-		return (NULL);
-	return (envp);
+int error_exit(t_tools tools, int error){
+    if (error = 1){
+        perror("Problem with malloc");
+    }
 }
