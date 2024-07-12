@@ -6,27 +6,12 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/12 20:02:53 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/13 00:48:55 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**free_array(char **res, int nb)
-{
-	int	i;
-
-	i = 0;
-	if (!res)
-		return (NULL);
-	while (i <= nb && res[i])
-	{
-		free(res[i]);
-		i++;
-	}
-	free(res);
-	return (NULL);
-}
 void	print_it(char **envp)
 {
 	size_t	i;
@@ -39,23 +24,20 @@ void	print_it(char **envp)
 	}
 }
 
-char	**copy_env(char **env)
+char	**copy_env(t_tools *tools, char **env)
 {
 	char	**envp;
 	int		len_pointers;
 	int		i;
 
-	// TODO
 	i = 0;
 	len_pointers = 0;
-	// len_pointers = ft_strlen(env) / sizeof(char *);
 	while (env[len_pointers] != NULL)
-	{
 		len_pointers++;
-	}
-	envp = ft_calloc((len_pointers + 3), sizeof(char *));
+	envp = ft_calloc((len_pointers + 4), sizeof(char *));
 	if (!envp)
 		return (NULL);
+	tools->env_len = len_pointers + 4;
 	while (i < len_pointers && env[i])
 	{
 		envp[i] = ft_strdup(env[i]);
@@ -67,4 +49,17 @@ char	**copy_env(char **env)
 		i++;
 	}
 	return (envp);
+}
+
+void	skip_spaces(char *s)
+{
+	if (!s || !*s)
+		return ;
+	while (*s == 32 || (*s >= 9 && *s <= 13))
+		s++;
+}
+
+int	istoken(char c)
+{
+	return (c == '|' || c == '<' || c == '>');
 }
