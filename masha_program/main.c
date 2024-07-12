@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
+/*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/11 19:52:17 by spitul           ###   ########.fr       */
+/*   Updated: 2024/07/11 20:30:46 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,24 @@ int	main(int argc, char **argv, char **env)
 	tools.env = copy_env(env);
 	 if (!tools.env)
 	 	return(error_exit(tools, 1));
-	shell_loop(tools);
+	shell_loop(&tools);
 	clear_history();
 	return (0);
 }
 
-int	shell_loop(t_tools tools)
+int	shell_loop(t_tools *tools)
 {
-	char *line;
-	if (!tools.env)
+	if (!tools->env)
 		return (1);
-	line = readline("minishell: ");
-	if (!line)
+	tools->line = readline("minishell: ");
+	if (!tools->line)
 	{
 		return (1);
 	}
-	//lex_it(line);
-	//add_history(line);
-	printf("%s\n", line);
-	free(line);
+	// tools.line
+	lex_it(tools);
+	add_history(tools->line);
+	printf("%s\n", tools->line);
+	free(tools->line);
 	return (0);
 }

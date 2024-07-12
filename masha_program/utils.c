@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
+/*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/11 19:51:34 by spitul           ###   ########.fr       */
+/*   Updated: 2024/07/12 20:02:53 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,34 @@ static char	**free_array(char **res, int nb)
 	int	i;
 
 	i = 0;
-	while (i <= nb)
+	if (!res)
+		return (NULL);
+	while (i <= nb && res[i])
 	{
 		free(res[i]);
-		i ++;
+		i++;
 	}
 	free(res);
 	return (NULL);
 }
- void	print_it(char **envp)
+void	print_it(char **envp)
 {
-	size_t i = 0;
+	size_t	i;
 
+	i = 0;
 	while (envp[i])
 	{
 		printf("%s\n", envp[i]);
-		i ++;
+		i++;
 	}
 }
 
 char	**copy_env(char **env)
 {
-	char **envp;
-	int len_pointers;
-	int	i;
+	char	**envp;
+	int		len_pointers;
+	int		i;
+
 	// TODO
 	i = 0;
 	len_pointers = 0;
@@ -60,8 +64,7 @@ char	**copy_env(char **env)
 			free_array(env, len_pointers);
 			return (NULL);
 		}
-		i ++;
+		i++;
 	}
 	return (envp);
 }
-

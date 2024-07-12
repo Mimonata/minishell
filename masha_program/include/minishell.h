@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
+/*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/11 19:31:29 by spitul           ###   ########.fr       */
+/*   Updated: 2024/07/11 20:27:15 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 typedef struct s_tools
 {
 	char	**env;
+	char	*line;
 }			t_tools;
 
 typedef struct cmd_struct_s
@@ -38,7 +39,7 @@ typedef struct cmd_struct_s
 /******** main.c ********/
 /************************/
 
-int			shell_loop(t_tools tools);
+int			shell_loop(t_tools *tools);
 
 /************************/
 /******* utils.c ********/
@@ -50,5 +51,5 @@ char		**copy_env(char **env);
 /******* DEBUG ********/
 /************************/
 
- void	print_it(char **envp);
+void		print_it(char **envp);
 #endif
