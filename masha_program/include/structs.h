@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 20:26:33 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/13 20:09:15 by myakoven         ###   ########.fr       */
+/*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
+/*   Updated: 2024/07/13 20:02:08 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
-# include "structs.h"
+typedef struct s_tools
+{
+	char	**env;
+	size_t	env_len;
+	char	*line;
+	char	**lexed;
+}			t_tools;
 
-void	lexer(t_tools *tools);
-int		getlen_command(t_tools *tools, int i);
-int		getlen_redirect(t_tools *tools, int i);
-int		check_quotes(t_tools *tools, int i);
-int		count_parts(t_tools *tools);
+typedef struct cmd_struct_s
+{
+}			cmd_struct_t;
 
 #endif

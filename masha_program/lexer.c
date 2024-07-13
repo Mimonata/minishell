@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexing.c                                           :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:07:28 by spitul            #+#    #+#             */
-/*   Updated: 2024/07/13 19:45:39 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/13 21:37:49 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**lexer(t_tools *tools)
+void	lexer(t_tools *tools)
 {
 	int	parts;
 	int	lex_i;
@@ -21,7 +21,7 @@ char	**lexer(t_tools *tools)
 
 	i = 0;
 	lex_i = 0;
-	parts = count_parts(tools->line);
+	parts = count_parts(tools);
 	tools->lexed = ft_calloc((parts + 2), sizeof(char *));
 	if (!tools->lexed)
 		error_exit(tools, 1);
@@ -38,6 +38,7 @@ char	**lexer(t_tools *tools)
 		lex_i++;
 	}
 }
+
 int	getlen_command(t_tools *tools, int i)
 {
 	int	og_index;
@@ -68,7 +69,7 @@ int	getlen_redirect(t_tools *tools, int i)
 			i++;
 		else if (tools->line[i] == '\"' || tools->line[i] == '\'')
 		{
-			i = check_quotes(tools->line, i);
+			i = check_quotes(tools, i);
 			break ;
 		}
 		else if (ft_isspace(tools->line[i + 1]) && (ft_isprint(tools->line[i])
@@ -80,29 +81,28 @@ int	getlen_redirect(t_tools *tools, int i)
 	return (i - og_index + 1);
 }
 
-int	count_parts(char *line)
+int	count_parts(t_tools *tools)
 {
 	int	i;
 	int	redirs;
-	int	j;
 	int	pipes;
 
 	i = 0;
 	redirs = 0;
 	pipes = 0;
-	while (line[i])
+	while (tools->line[i])
 	{
-		j = 0;
-		if (line[i] == '\"' || line[i] == '\'')
-			i = check_quotes(line, i) + 1;
-		if (line[i] == '<' || line[i] == '<')
+		if (tools->line[i] == '\"' || tools->line[i] == '\'')
+			i = check_quotes(tools, i);
+		else if (tools->line[i] == '<' || tools->line[i] == '<')
 		{
-			if (line[i + 1] == line[i])
+			if (tools->line[i + 1] == tools->line[i])
 				i++;
 			redirs++;
 		}
-		else if (line[i++] == '|')
+		else if (tools->line[i] == '|')
 			pipes++;
+		i++;
 	}
 	pipes = (pipes + pipes + 1) + redirs;
 	return (pipes);
@@ -123,6 +123,7 @@ int	check_quotes(t_tools *tools, int i)
 		j++;
 	}
 	error_exit(tools, 2);
+	return (1);
 }
 
 // LEX BEFORE EVERYTHING ELSE?
@@ -153,7 +154,6 @@ int	check_quotes(t_tools *tools, int i)
 // // <>
 // if (j > 0 && istoken(tools->line[i]))
 // 	break ;
-
 
 // DOES NOT WORK!!! TODO
 // REWRITE INTO GET_LEN???, no writing should take place here...

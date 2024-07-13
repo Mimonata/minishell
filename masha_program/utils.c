@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/13 19:49:33 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/13 20:28:34 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ char	**copy_env(t_tools *tools, char **env)
 	len_pointers = 0;
 	while (env[len_pointers] != NULL)
 		len_pointers++;
-	envp = ft_calloc((len_pointers + 4), sizeof(char *));
+	envp = ft_calloc((len_pointers + 5), sizeof(char *));
 	if (!envp)
 		return (NULL);
-	tools->env_len = len_pointers + 4;
+	tools->env_len = len_pointers + 3;
 	while (i < len_pointers && env[i])
 	{
 		envp[i] = ft_strdup(env[i]);
@@ -61,10 +61,14 @@ int	isquote(char c)
 	return (c == '\'' || c == '\"');
 }
 
-void	skip_spaces(char *s)
+int	skip_spaces(char *s)
 {
+	int	i;
+
+	i = 0;
 	if (!s || !*s)
-		return ;
-	while (*s == 32 || (*s >= 9 && *s <= 13))
-		s++;
+		return (i);
+	while (s[i] == 32 || (s[i] >= 9 && s[i] <= 13))
+		i++;
+	return (i);
 }
