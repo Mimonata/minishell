@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/13 00:38:01 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/13 19:49:50 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,11 @@ int			shell_loop(t_tools *tools);
 /************************/
 /******* utils.c ********/
 /************************/
-
 char		**copy_env(t_tools *tools, char **env);
+void		print_tab(char **envp);
+int			istoken(char c);
+int			isquote(char c);
+void		skip_spaces(char *s);
 
 /************************/
 /******* error.c ********/
@@ -56,9 +59,4 @@ int			error_exit(t_tools *tools, int error);
 void		clean_tools(t_tools *tools);
 char		**free_array(char **res, int nb);
 
-/************************/
-/******* DEBUG ********/
-/************************/
-
-void		print_it(char **envp);
 #endif

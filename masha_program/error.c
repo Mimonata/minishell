@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:22:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/12 21:53:40 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/13 01:20:18 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	error_exit(t_tools *tools, int error)
 {
 	clean_tools(tools);
+	clear_history();
 	if (error == 1)
 	{
 		perror("Problem with malloc");

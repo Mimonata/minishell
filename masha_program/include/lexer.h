@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 20:26:33 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/13 00:47:17 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/13 19:46:49 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 # include "minishell.h"
 
 char	**lexer(t_tools *tools);
+int		getlen_command(t_tools *tools, int i);
+int		getlen_redirect(t_tools *tools, int i);
 int		check_quotes(t_tools *tools, int i);
-void	get_redirect(t_tools *tools, int lex_i, int i, int j);
-int		istoken(char c);
+int	count_parts(char *line);
+
 #endif

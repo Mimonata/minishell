@@ -6,23 +6,11 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/13 00:48:55 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/13 19:49:33 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_it(char **envp)
-{
-	size_t	i;
-
-	i = 0;
-	while (envp[i])
-	{
-		printf("%s\n", envp[i]);
-		i++;
-	}
-}
 
 char	**copy_env(t_tools *tools, char **env)
 {
@@ -51,15 +39,32 @@ char	**copy_env(t_tools *tools, char **env)
 	return (envp);
 }
 
+void	print_tab(char **envp)
+{
+	size_t	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
+}
+
+int	istoken(char c)
+{
+	return (c == '|' || c == '<' || c == '>');
+}
+
+int	isquote(char c)
+{
+	return (c == '\'' || c == '\"');
+}
+
 void	skip_spaces(char *s)
 {
 	if (!s || !*s)
 		return ;
 	while (*s == 32 || (*s >= 9 && *s <= 13))
 		s++;
-}
-
-int	istoken(char c)
-{
-	return (c == '|' || c == '<' || c == '>');
 }
