@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/14 23:01:00 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/14 23:47:04 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	shell_loop(t_tools *tools)
 			error_exit(tools, 3);
 		global_signal = 0;
 		lexer(tools);
-		add_history(tools->line);
+		if (full_line(tools->line))
+			add_history(tools->line);
 		// printf("%s\n", tools->line);
 		pwd(tools);
 		if (tools->line)

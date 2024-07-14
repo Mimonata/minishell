@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/14 23:24:15 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/14 23:46:32 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ int		istoken(char c);
 int		isquote(char c);
 int		skip_spaces(char *s);
 int		get_matrix_len(char **matrix);
+
+/************************/
+/******* utils2.c ********/
+/************************/
+int		full_line(char *line);
 
 /************************/
 /******* init.c ********/
