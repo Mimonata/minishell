@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/13 20:26:06 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/14 15:09:42 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,11 @@ int		skip_spaces(char *s);
 int		error_exit(t_tools *tools, int error);
 void	clean_tools(t_tools *tools);
 char	**free_array(char **res, int nb);
+
+/************************/
+/******* built_ins.c ********/
+/************************/
+
+void	pwd(t_tools *tools, int fd);
 
 #endif

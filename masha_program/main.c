@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/13 20:15:41 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/14 15:06:48 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	shell_loop(t_tools *tools)
 		error_exit(tools, 1);
 	lexer(tools);
 	add_history(tools->line);
+	pwd(tools, 0);
 	printf("%s\n", tools->line);
 	free(tools->line);
 	return (0);
