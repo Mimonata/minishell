@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/14 15:09:42 by spitul           ###   ########.fr       */
+/*   Updated: 2024/07/14 20:09:28 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int		shell_loop(t_tools *tools);
 /******* utils.c ********/
 /************************/
 char	**copy_env(t_tools *tools, char **env);
+char	*get_env_var(t_tools *tools, char *var);
 void	print_tab(char **envp);
 int		istoken(char c);
 int		isquote(char c);
