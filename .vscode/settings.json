@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "kittens": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "unistd.h": "c",
+        "minishell.h": "c"
     }
 }

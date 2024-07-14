@@ -6,30 +6,25 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 14:13:16 by spitul            #+#    #+#             */
-/*   Updated: 2024/07/14 23:29:22 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/15 00:01:40 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-
-	Wanted to make a note on this:
+	Wanted to make a note on this for later:
 
 	c4a6c10% pwd ok
 	pwd: too many arguments
 
-	for after the have the 2d array:
-
-	i think pwd have to check the entire command string that start with pwd.... it might be nice if each builtin received the same thing as execve,
-	which is a 2d array of the command,
-	then it could just check the length of the 2d and put that error?
+	After the have the 2d command array maybe we can stick it in there?
 
 	void	pwd(t_tools *tools, char **cmd)?
 
-	perror returns an actual error... i have to change all my perrors - oops
+	i have to change all my perrors to ft_putstr_fd(str, 2) - oops
 
-	*/
+*/
 
 void	pwd(t_tools *tools)
 {
@@ -46,5 +41,4 @@ void	pwd(t_tools *tools)
 	else
 		// perror("pwd: error retrieving current directory:");
 		ft_putstr_fd("pwd: error retrieving current directory\n", 2);
-
 }
