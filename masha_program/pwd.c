@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 14:13:16 by spitul            #+#    #+#             */
-/*   Updated: 2024/07/15 16:03:07 by spitul           ###   ########.fr       */
+/*   Updated: 2024/07/15 16:16:17 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	pwd(t_tools *tools, cmd_t *cmd)
 	size_t	i;
 
 	i = 0;
-	if (len_cmd(cmd) > 1)
+	if (get_matrix_len(cmd->cmds) > 1)
 		ft_putstr_fd("pwd: too many arguments\n", 2);
 	pos = get_env_var(tools, "PWD");
 	if (pos != NULL)

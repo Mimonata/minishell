@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/15 16:07:16 by spitul           ###   ########.fr       */
+/*   Updated: 2024/07/15 16:17:41 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,13 @@ int	skip_spaces(char *s)
 		i++;
 	return (i);
 }
-int	len_cmd(cmd_t *cmd)
-{
-	int	i;
-
-	if (!cmd || !cmd->cmds)
-		return (0);
-	i = 0;
-	while (cmd->cmds[i])
-		i ++;
-	return (i);
-}
 
 int	get_matrix_len(char **matrix)
 {
 	int	i;
 
+	if (!matrix || !*matrix)
+		return (0);
 	i = 0;
 	while (matrix[i])
 		i++;
