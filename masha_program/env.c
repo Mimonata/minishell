@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:07:28 by spitul            #+#    #+#             */
-/*   Updated: 2024/07/15 15:31:35 by spitul           ###   ########.fr       */
+/*   Updated: 2024/07/15 18:08:48 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,8 @@ char	*get_env_var(t_tools *tools, char *var)
 		pos = ft_strnstr(tools->env[i], var, len);
 		i++;
 	}
-	return (pos + len + 1);
+	if (*(pos + i) == '=')
+		return (pos + len + 1);
+	else 
+		return (NULL);
 }
