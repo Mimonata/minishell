@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/14 23:24:06 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:07:16 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,20 @@ int	skip_spaces(char *s)
 
 	i = 0;
 	if (!s || !*s)
-		return (i);
+		return (0);
 	while (s[i] == 32 || (s[i] >= 9 && s[i] <= 13))
 		i++;
+	return (i);
+}
+int	len_cmd(cmd_t *cmd)
+{
+	int	i;
+
+	if (!cmd || !cmd->cmds)
+		return (0);
+	i = 0;
+	while (cmd->cmds[i])
+		i ++;
 	return (i);
 }
 

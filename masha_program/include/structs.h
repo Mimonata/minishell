@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/13 20:02:08 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:47:37 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ typedef struct s_tools
 	char	**lexed;
 }			t_tools;
 
-typedef struct cmd_struct_s
+typedef struct	cmd_s
 {
-}			cmd_struct_t;
+	char	**cmds;
+		
+}				cmd_t; 
 
 #endif
