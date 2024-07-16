@@ -6,13 +6,13 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:07:28 by spitul            #+#    #+#             */
-/*   Updated: 2024/07/13 21:37:49 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/16 22:40:27 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	lexer(t_tools *tools)
+int	lexer(t_tools *tools)
 {
 	int	parts;
 	int	lex_i;
@@ -22,6 +22,8 @@ void	lexer(t_tools *tools)
 	i = 0;
 	lex_i = 0;
 	parts = count_parts(tools);
+	if (parts == 0)
+		return (0);
 	tools->lexed = ft_calloc((parts + 2), sizeof(char *));
 	if (!tools->lexed)
 		error_exit(tools, 1);
@@ -37,6 +39,7 @@ void	lexer(t_tools *tools)
 		i += len;
 		lex_i++;
 	}
+	return (1);
 }
 
 int	getlen_command(t_tools *tools, int i)
@@ -44,17 +47,24 @@ int	getlen_command(t_tools *tools, int i)
 	int	og_index;
 
 	og_index = i;
-	i++;
+	// i++;
+	// the let thing havs to see the actual initial character... otherwise if messed up quotes
 	while (tools->line[i])
 	{
-		if (!istoken(tools->line[i]) && !isquote(tools->line[i]))
-			i++;
-		else if (isquote(tools->line[i]))
-			i = check_quotes(tools, i) + 1;
+		// if (!istoken(tools->line[i]) && !isquote(tools->line[i]))
+		// 	i++;
+		// else
+		if (isquote(tools->line[i]))
+			i = check_quotes(tools, i); // now points to the last quote
 		else if (istoken(tools->line[i]))
+		{
 			break ;
+		}
+		printf("%i, %c \n", i, tools->line[i]);
+		i++; // added i++ so now i would = 7 and 7 - 0 is 7,
+				// length of "hello" is 7!
 	}
-	return (i - og_index + 1);
+	return (i - og_index); // removed +1
 }
 
 int	getlen_redirect(t_tools *tools, int i)
@@ -72,8 +82,14 @@ int	getlen_redirect(t_tools *tools, int i)
 			i = check_quotes(tools, i);
 			break ;
 		}
-		else if (ft_isspace(tools->line[i + 1]) && (ft_isprint(tools->line[i])
-				&& (i > og_index)))
+		else if (!ft_isspace(tools->line[i]) && ft_isspace(tools->line[i + 1])
+			&& (ft_isprint(tools->line[i]) && (i > og_index)))
+		{
+			while (ft_isspace(tools->line[i + 1]))
+				i++;
+			break ;
+		}
+		else if (i - og_index > 1 && istoken(tools->line[i + 1]))
 			break ;
 		else
 			i++;
@@ -93,8 +109,13 @@ int	count_parts(t_tools *tools)
 	while (tools->line[i])
 	{
 		if (tools->line[i] == '\"' || tools->line[i] == '\'')
+		{
 			i = check_quotes(tools, i);
-		else if (tools->line[i] == '<' || tools->line[i] == '<')
+			if (i == 0)
+				return (0);
+		}
+		else if (tools->line[i] == '<' || tools->line[i] == '>')
+		// had two < instead of < and >
 		{
 			if (tools->line[i + 1] == tools->line[i])
 				i++;
@@ -108,7 +129,8 @@ int	count_parts(t_tools *tools)
 	return (pipes);
 }
 
-// return pointer to the closing quote or exits program
+// return index of closing quote or exits program cause the program iterates after!
+
 int	check_quotes(t_tools *tools, int i)
 {
 	int		j;
@@ -122,8 +144,9 @@ int	check_quotes(t_tools *tools, int i)
 			return (i + j);
 		j++;
 	}
-	error_exit(tools, 2);
-	return (1);
+	// error_exit(tools, 2);
+	ft_putstr_fd("msh: Unclosed Quotes\n", 2); // changed
+	return (0);
 }
 
 // LEX BEFORE EVERYTHING ELSE?

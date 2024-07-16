@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/16 19:34:12 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/16 22:41:27 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*get_env_var(t_tools *tools, char *var);
 /************************/
 /******* utils.c ********/
 /************************/
-void	print_tab(char **envp);
+int 	print_tab(char **envp);
 int		istoken(char c);
 int		isquote(char c);
 int		skip_spaces(char *s);

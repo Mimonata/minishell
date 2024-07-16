@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/16 20:41:19 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/16 22:52:03 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,17 @@ int	shell_loop(t_tools *tools)
 {
 	while (1)
 	{
+		global_signal = 0;
 		tools->line = readline("minishell: ");
 		if (!tools->line || !strncmp(tools->line, "exit", 5))
 			error_exit(tools, 3);
-		global_signal = 0;
-		lexer(tools);
 		if (full_line(tools->line))
 			add_history(tools->line);
-		printf("%s\n", tools->line);
-		//pwd(tools); // waiting for input
+		if (lexer(tools))
+		{
+			printf("%s\n", tools->line);
+			print_tab(tools->lexed);
+		}
 		if (tools->line)
 			free(tools->line);
 		if (global_signal == SIGTERM) // TODO

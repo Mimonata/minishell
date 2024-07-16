@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 20:26:33 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/13 20:09:15 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/16 22:40:54 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "structs.h"
 
-void	lexer(t_tools *tools);
+int 	lexer(t_tools *tools);
 int		getlen_command(t_tools *tools, int i);
 int		getlen_redirect(t_tools *tools, int i);
 int		check_quotes(t_tools *tools, int i);

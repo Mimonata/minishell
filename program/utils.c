@@ -6,22 +6,25 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/16 19:32:42 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/07/16 22:40:59 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_tab(char **envp)
+int	print_tab(char **envp)
 {
 	size_t	i;
 
 	i = 0;
+	if (!envp || !*envp)
+		return (0);
 	while (envp[i])
 	{
 		printf("%s\n", envp[i]);
 		i++;
 	}
+	return (1);
 }
 
 int	istoken(char c)
