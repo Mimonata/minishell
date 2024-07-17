@@ -59,7 +59,7 @@ char	*get_env_var(t_tools *tools, char *var)
 		pos = ft_strnstr(tools->env[i], var, len);
 		i++;
 	}
-	if (*(pos + i) == '=')
+	if (pos && *(pos + i) == '=')
 		return (pos + len + 1);
 	else 
 		return (NULL);
