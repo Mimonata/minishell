@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 14:13:16 by spitul            #+#    #+#             */
-/*   Updated: 2024/07/16 19:31:49 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/09/02 20:02:25 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,20 @@
 
 void	pwd(t_tools *tools, cmd_t *cmd)
 {
-	char *pos;
-	char cwd[2048];
+	char *cwd;
 	size_t i;
 
 	i = 0;
+	cwd = NULL;
 	if (get_matrix_len(cmd->cmds) > 1)
 		ft_putstr_fd("pwd: too many arguments\n", 2);
-	pos = get_env_var(tools, "PWD");
-	if (pos != NULL)
+	cwd = getcwd(NULL, 0); //should we check for malloc error
+	if (cwd != NULL)
 	{
-		ft_putstr_fd(pos, 1);
+		ft_putstr_fd(cwd, 1);
 		ft_putstr_fd("\n", 1);
+		free (cwd);
 	}
 	else
-	{
-		if (getcwd(cwd, sizeof(cwd)) != NULL)
-		{
-			ft_putstr_fd(cwd, 1);
-			ft_putstr_fd("\n", 1);
-		}
-		else
-			perror("pwd: error retrieving current directory:");
-		// perror is needed here because the message has to be completed by errno
-	}
+		perror("pwd: error retrieving current directory:");
 }
