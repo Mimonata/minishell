@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/02 19:24:23 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/06 19:33:56 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,5 @@ char	**free_array(char **res, int nb);
 /************************/
 /******* built_ins.c ********/
 /************************/
-
-// void	pwd(t_tools *tools);
-void	pwd(t_tools *tools, cmd_t *cmd);
 
 #endif

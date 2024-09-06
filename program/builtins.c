@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 14:13:16 by spitul            #+#    #+#             */
-/*   Updated: 2024/09/02 20:02:25 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/06 19:25:21 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,37 @@
 
 */
 
-void	pwd(t_tools *tools, cmd_t *cmd)
+int	echo ()
+{
+	return (1);
+}
+
+int	cd()
+{
+	return (1);
+}
+
+int	export ()
+{
+	return (1);
+}
+
+int	unset()
+{
+	return (1);
+}
+
+int	env()
+{
+	return (1);
+}
+
+int	ft_exit()
+{
+	return (1);
+}
+
+int	pwd(t_tools *tools, cmd_t *cmd)
 {
 	char *cwd;
 	size_t i;
@@ -44,4 +74,5 @@ void	pwd(t_tools *tools, cmd_t *cmd)
 	}
 	else
 		perror("pwd: error retrieving current directory:");
+	return (1);
 }

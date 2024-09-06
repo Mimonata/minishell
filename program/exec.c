@@ -6,30 +6,45 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:48:13 by spitul            #+#    #+#             */
-/*   Updated: 2024/09/05 20:32:47 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/06 19:59:08 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
 
+static void	init_builtin_array(char **b)
+{
+	b[0] = "echo";
+	b[1] = "cd";
+	b[2] = "pwd";
+	b[3] = "export";
+	b[4] = "unset";
+	b[5] = "env";
+	b[6] = "exit";
+}
+
 int	check_builtin(char *s)
 {
-	int		i;
-	char	*builtins[] = {"echo", "cd", "pwd", "export", 
-		"unset", "env", "exit"};
+	int		a[7];
+	int		len;
+	char	*builtins[7];
 
-	if (ft_strncmp(s, builtins[0], ft_strlen(s)) == 0)
-		echo();
-	else if (ft_strncmp(s, builtins[1], ft_strlen(s)) == 0)
-		cd();
-	else if (ft_strncmp(s, builtins[2], ft_strlen(s)) == 0)
-		pwd();
-	else if (ft_strncmp(s, builtins[3], ft_strlen(s)) == 0)
-		export();
-	else if (ft_strncmp(s, builtins[4], ft_strlen(s)) == 0)	
-		unset();
-	else if (ft_strncmp(s, builtins[5], ft_strlen(s)) == 0)		
-		env();
-	else if (ft_strncmp(s, builtins[6], ft_strlen(s)) == 0)
-		ft_exit();	
+	init_builtin_array(builtins);
+	len = ft_strlen(s);
+	ft_bzero((void *)a, 7 * sizeof(int)); 
+	if (len == 4 && ft_strncmp(s, builtins[0], len) == 0)
+		a[0] = echo();
+	else if (len == 2 && ft_strncmp(s, builtins[1], len) == 0)
+		a[1] =cd();
+	else if (len == 3 && ft_strncmp(s, builtins[2], len) == 0)
+		a[2] = pwd();
+	else if (len == 6 && ft_strncmp(s, builtins[3], len) == 0)
+		a[3] = export();
+	else if (len == 5 && ft_strncmp(s, builtins[4], len) == 0)	
+		a[4] = unset();
+	else if (len == 3 && ft_strncmp(s, builtins[5], len) == 0)		
+		a[5] = env();
+	else if (len == 4 && ft_strncmp(s, builtins[6], len) == 0)
+		a[6] = ft_exit();	
+	return (a[0] || a[1] || a[2] || a[3] || a[4] || a[5] || a[6]);
 }
