@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:48:13 by spitul            #+#    #+#             */
-/*   Updated: 2024/09/06 19:59:08 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/16 20:00:14 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,24 @@ int	check_builtin(char *s)
 	else if (len == 4 && ft_strncmp(s, builtins[6], len) == 0)
 		a[6] = ft_exit();	
 	return (a[0] || a[1] || a[2] || a[3] || a[4] || a[5] || a[6]);
+}
+static char	*get_path(char **env, char)
+{
+	int	i;
+
+	i=0;
+	while ()		
+}
+
+
+void	run_cmd(char **env)
+{
+	char	*path;
+	
+	if (!check_builtin())
+	{
+		path = get_env_var(env, "PATH");
+		
+		if ()
+			wrong input;		
 }

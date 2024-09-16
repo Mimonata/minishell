@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:07:28 by spitul            #+#    #+#             */
-/*   Updated: 2024/07/15 18:08:48 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/16 19:48:37 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ char	**copy_env(t_tools *tools, char **env)
 	return (envp);
 }
 
-char	*get_env_var(t_tools *tools, char *var)
+char	*get_env_var(char **env, char *var)
 {
 	int i;
 	size_t len;
 	char *pos;
 
-	if (!var || !tools)
+	if (!var || !env || !*env)
 		return (NULL);
 	// exit(EXIT_FAILURE);
 	//? myakoven i would prob just return null here
@@ -54,9 +54,9 @@ char	*get_env_var(t_tools *tools, char *var)
 	pos = NULL;
 	i = 0;
 	len = ft_strlen(var);
-	while (tools->env[i] && !pos)
+	while (env[i] && !pos)
 	{
-		pos = ft_strnstr(tools->env[i], var, len);
+		pos = ft_strnstr(env[i], var, len);
 		i++;
 	}
 	if (pos && *(pos + len) == '=')

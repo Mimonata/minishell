@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 14:13:16 by spitul            #+#    #+#             */
-/*   Updated: 2024/09/06 19:25:21 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/06 20:04:44 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_exit()
 	return (1);
 }
 
-int	pwd(t_tools *tools, cmd_t *cmd)
+int	pwd(cmd_t *cmd)
 {
 	char *cwd;
 	size_t i;

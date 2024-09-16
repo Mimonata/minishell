@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/06 19:33:56 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/16 19:49:52 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	init_sa(struct sigaction *sa);
 /************************/
 
 char	**copy_env(t_tools *tools, char **env);
-char	*get_env_var(t_tools *tools, char *var);
+char	*get_env_var(char **env, char *var);
 
 /************************/
 /******* utils.c ********/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/16 22:52:03 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/09/16 19:41:02 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	shell_loop(t_tools *tools)
 	{
 		global_signal = 0;
 		tools->line = readline("minishell: ");
-		if (!tools->line || !strncmp(tools->line, "exit", 5))
+		if (!tools->line || !strncmp(tools->line, "exit", 5)) // what if the input is exit and some other thing - it prob should display an error msg
 			error_exit(tools, 3);
 		if (full_line(tools->line))
 			add_history(tools->line);
