@@ -56,15 +56,24 @@ static char	*get_path(char **env, char)
 	while ()		
 }
 
+int	check_cmd(char *path, char *cmd)
+{
 
-void	run_cmd(char **env)
+}
+
+void	check_run_cmd(char **env)
 {
 	char	*path;
-	
+	char	**split_path;
+	int		i;
+
+	i = 0;
 	if (!check_builtin())
 	{
 		path = get_env_var(env, "PATH");
-		
-		if ()
-			wrong input;		
+		split_path = ft_split(path, ":");
+		while (*split_path[i])
+		{
+			if (check_cmd(split_path[i], ))
+		}			
 }
