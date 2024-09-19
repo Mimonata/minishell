@@ -3,17 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/16 20:43:57 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:14:03 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-#include "minishell.h"
+# include "minishell.h"
+
+# define EXEC	1
+# define REDIR	2
+# define PIPE	3
+
+typedef struct	s_cmd
+{
+	int	type;	
+}				t_cmd;				
+
+typedef struct	s_execcmd
+{
+	int	type;
+	char	**arg;
+}				t_execcmd;
 
 typedef struct s_tools
 {
@@ -23,9 +38,9 @@ typedef struct s_tools
 	char	**lexed;
 }			t_tools;
 
-typedef struct	cmd_s
-{
-	char	**cmds;
-}				cmd_t; 
+// typedef struct	cmd_s
+// {
+// 	char	**cmds;
+// }				cmd_t; 
 
 #endif

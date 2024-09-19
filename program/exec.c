@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:48:13 by spitul            #+#    #+#             */
-/*   Updated: 2024/09/16 20:00:14 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/19 20:05:05 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,32 +48,46 @@ int	check_builtin(char *s)
 		a[6] = ft_exit();	
 	return (a[0] || a[1] || a[2] || a[3] || a[4] || a[5] || a[6]);
 }
-static char	*get_path(char **env, char)
-{
-	int	i;
 
-	i=0;
-	while ()		
+char	*find_cmd(char *path, char *cmd)
+{
+	char	*cmdpath;
+	char	*temp;
+
+	cmdpath = NULL;
+	temp = NULL;
+	temp = ft_strjoin(path, "/");
+	if (!temp)
+		return (NULL);
+	cmdpath =  ft_strjoin(temp, cmd);
+	free (temp);
+	if (!cmdpath)
+		return (perror); // geht es so? 
+	if (access(cmdpath, F_OK | X_OK) == 0)
+		return (cmdpath);
+	else
+	{
+		free (cmdpath);
+		return (NULL);
+	}
 }
 
-int	check_cmd(char *path, char *cmd)
-{
-
-}
-
-void	check_run_cmd(char **env)
+void	check_run_cmd(char **env, t_execcmd *cmd)
 {
 	char	*path;
+	char	*pathcmd;
 	char	**split_path;
 	int		i;
 
 	i = 0;
+	pathcmd =  NULL;
 	if (!check_builtin())
 	{
 		path = get_env_var(env, "PATH");
 		split_path = ft_split(path, ":");
 		while (*split_path[i])
 		{
-			if (check_cmd(split_path[i], ))
+			pathcmd = find_cmd(split_path[i], cmd->arg[0]);
+			if (execve())
 		}			
 }
