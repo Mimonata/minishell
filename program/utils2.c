@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/07/14 23:47:55 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:01:03 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,19 @@ int	full_line(char *line)
 		i++;
 	}
 	return (0);
+}
+
+void	free_tab(char **tab)
+{
+	int	i;
+	
+	if (!tab || !*tab)
+		return ;
+	i = 0;
+	while (tab[i])
+	{
+		free (tab[i]);
+		i ++;
+	}
+	free (tab);
 }

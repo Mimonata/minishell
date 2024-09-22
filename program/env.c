@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:07:28 by spitul            #+#    #+#             */
-/*   Updated: 2024/09/16 19:48:37 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/22 16:03:00 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**copy_env(t_tools *tools, char **env)
 		}
 		i++;
 	}
-	return (envp);
+	return (envp); // envp has to be freed before end?
 }
 
 char	*get_env_var(char **env, char *var)

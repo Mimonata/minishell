@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:48:13 by spitul            #+#    #+#             */
-/*   Updated: 2024/09/20 20:14:27 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/22 16:24:29 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	check_builtin(char *s)
 	return (a[0] || a[1] || a[2] || a[3] || a[4] || a[5] || a[6]);
 }
 
-char	*check_cmd_in_path(char *path, char *cmd)
+char	*check_cmd_in_path(char *path, t_execcmd *cmd)
 {
 	char	*cmdpath;
 	char	*temp;
@@ -59,22 +59,21 @@ char	*check_cmd_in_path(char *path, char *cmd)
 	temp = ft_strjoin(path, "/");
 	if (!temp)
 		return (NULL);
-	cmdpath = ft_strjoin(temp, cmd);
+	cmdpath = ft_strjoin(temp, cmd->arg[0]);
 	if (!cmdpath)
 		return (NULL);
 	free (temp);
 	if (access(cmdpath, F_OK | X_OK) == 0)
 		return (cmdpath);
-	else if (access(cmdpath, F_OK) != 0)
-	{
-		printf("msh: command not found: %s\n", cmd->arg[0]);
+	else
+	{ 
+		if (access(cmdpath, F_OK) != 0)
+			printf("msh: command not found: %s\n", cmd->arg[0]);
+		else if (access(cmdpath, X_OK) != 0) //insufficient rights 
+	//kommt das hier oder anderswo - ist es nur ein problem bei args?
+			printf("msh: permission denied %s\n", cmd->arg[0]);
 		free (cmdpath);
 		return (NULL); //TODO error handling - do we have to always write in the strerror
-	}
-	else if (access(cmdpath, F_OK | X_OK) != 0) //insufficient rights 
-	//kommt das hier oder anderswo - ist es nur ein problem bei args?
-	{
-		printf("msh: ")
 	}
 }
 
@@ -88,21 +87,31 @@ void	check_cmd(char **env, t_execcmd *cmd)
 	i = 0;
 	pathcmd = NULL;
 	path = get_env_var(env, "PATH");
+	if (!path)
+		return ;
 	split_path = ft_split(path, ":");
+	if (!split_path)
+		return ; // exit failure? 
 	while (*split_path[i])
 	{
 		pathcmd = check_cmd_in_path(split_path[i], cmd->arg[0]);
 		if (pathcmd != NULL)
 		{
 			exec_cmd(pathcmd, cmd, env); //pathcmd has to be freed
-			return ;
+			free (pathcmd);
+			break ;
 		}
 		i ++;
 	}
-	if (!pathcmd)
-		
+	free_tab(split_path);
 }
 void	exec_cmd(char *pathcmd, t_execcmd *cmd, char **env)
 {
-		
+	if (fork() == 0)
+	{
+		if (execve(pathcmd, cmd->arg, env) == -1)
+			printf("msh: %s: no such file or directory\n", cmd->arg[0]);
+	}
+	else
+		wait(NULL);
 }
