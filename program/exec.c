@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:48:13 by spitul            #+#    #+#             */
-/*   Updated: 2024/09/22 16:24:29 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/22 16:28:02 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	check_cmd(char **env, t_execcmd *cmd)
 	split_path = ft_split(path, ":");
 	if (!split_path)
 		return ; // exit failure? 
-	while (*split_path[i])
+	while (split_path[i])
 	{
 		pathcmd = check_cmd_in_path(split_path[i], cmd->arg[0]);
 		if (pathcmd != NULL)
