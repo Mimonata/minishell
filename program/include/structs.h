@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/19 19:14:03 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/24 16:54:40 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,22 @@ typedef struct	s_execcmd
 	int	type;
 	char	**arg;
 }				t_execcmd;
+
+typedef struct s_redircmd
+{
+	int	type;
+	t_cmd	*cmd;
+	char	*file;
+	int		mode;
+	int		fd;	
+}				t_redircmd;
+
+typedef struct	s_pipecmd
+{
+	int	type;
+	t_cmd	*left;
+	t_cmd	*right;
+}				t_pipecmd;
 
 typedef struct s_tools
 {

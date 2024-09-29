@@ -6,11 +6,13 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:48:13 by spitul            #+#    #+#             */
-/*   Updated: 2024/09/22 16:28:02 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/29 17:08:23 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
+
+//error msg need to go to stderr
 
 static void	init_builtin_array(char **b)
 {
@@ -105,13 +107,21 @@ void	check_cmd(char **env, t_execcmd *cmd)
 	}
 	free_tab(split_path);
 }
+
 void	exec_cmd(char *pathcmd, t_execcmd *cmd, char **env)
 {
-	if (fork() == 0)
+	pid_t	pid;
+	
+	pid = fork();
+	if (pid == -1)
+		return (FORK_ERROR);//dunno
+	if (pid == 0)
 	{
 		if (execve(pathcmd, cmd->arg, env) == -1)
+		// better an error handling function
 			printf("msh: %s: no such file or directory\n", cmd->arg[0]);
 	}
 	else
-		wait(NULL);
+		waitpid(pid, NULL, 0);
 }
+
