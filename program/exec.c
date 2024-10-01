@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:48:13 by spitul            #+#    #+#             */
-/*   Updated: 2024/09/29 17:08:23 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/30 16:25:51 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,9 @@ void	check_cmd(char **env, t_execcmd *cmd)
 	}
 	free_tab(split_path);
 }
+void 	exec_node(t_cmd *cmd)
+{
+	
 
 void	exec_cmd(char *pathcmd, t_execcmd *cmd, char **env)
 {

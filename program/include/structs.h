@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/24 16:54:40 by spitul           ###   ########.fr       */
+/*   Updated: 2024/09/30 16:37:42 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_redircmd
 {
 	int	type;
 	t_cmd	*cmd;
-	char	*file;
+	char	*file; //fd tells you which of the standard streams is being redirected.
 	int		mode;
 	int		fd;	
 }				t_redircmd;
