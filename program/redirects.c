@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 16:34:23 by spitul            #+#    #+#             */
-/*   Updated: 2024/09/30 16:50:27 by spitul           ###   ########.fr       */
+/*   Updated: 2024/10/01 19:45:48 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,11 @@ void	redir_error(int errnum, t_redircmd *rcmd)
 	}
 }
 
-void	output_redir(t_redircmd *rcmd)
+void	redir_cmd(t_redircmd *rcmd)
 {
-	int	refd;
-	int	i;
-	
-	refd = open(rcmd->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (refd == -1)
+	close(rcmd->fd);
+	rcmd->fd = open(rcmd->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (rcmd->fd == -1)
 		redir_error(errno, rcmd);
-	dup2(refd, rcmd->fd);	
+	exec_cmd(rcmd->cmd);
 }

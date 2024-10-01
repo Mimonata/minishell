@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:48:13 by spitul            #+#    #+#             */
-/*   Updated: 2024/09/30 16:25:51 by spitul           ###   ########.fr       */
+/*   Updated: 2024/10/01 18:53:39 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,32 @@ void	check_cmd(char **env, t_execcmd *cmd)
 	}
 	free_tab(split_path);
 }
-void 	exec_node(t_cmd *cmd)
+void 	exec_cmd(t_cmd *cmd, char **env)
 {
+	t_execcmd	*ecmd;
+	t_redircmd	*rcmd;
+	t_pipecmd	*pcmd;
+	
+	ft_memset((void *)ecmd, 0, sizeof(*ecmd));
+	ft_memset((void *)rcmd, 0, sizeof(*rcmd));
+	ft_memset((void *)pcmd, 0, sizeof(*pcmd));
+	if (cmd->type == 1)
+	{
+		ecmd = (t_execcmd *)cmd;
+		check_cmd(env, ecmd);
+	}
+	else if (cmd->type == 2)
+	{
+		rcmd = (t_redircmd *)cmd;
+		redir_cmd(rcmd);
+	}
+	else if (cmd->type == 3)
+	{
+		
+	}
 	
 
-void	exec_cmd(char *pathcmd, t_execcmd *cmd, char **env)
+void	_exec_cmd(char *pathcmd, t_execcmd *cmd, char **env)
 {
 	pid_t	pid;
 	
