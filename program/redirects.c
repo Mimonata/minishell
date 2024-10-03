@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 16:34:23 by spitul            #+#    #+#             */
-/*   Updated: 2024/10/01 19:45:48 by spitul           ###   ########.fr       */
+/*   Updated: 2024/10/03 18:39:30 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 //error msg need to go to stderr
 
-// spitul@c3a8c2:~$ cat hello bestie 
-// cat: hello: No such file or directory
-// cat: bestie: No such file or directory
+// spitul@c3a6c6:~$ cat <text2.txt 
+// how about
+// some text
+// spitul@c3a6c6:~$ cat <text2.txt <bibi 
+// bash: bibi: No such file or directory
+
 //cases when outfile is not being created 
 //1. when set -e or set -o errexit is being used?? because the script terminates weil open negativ so no time for file creation
 //2. using non existent dir in the path
@@ -25,39 +28,43 @@
 
 void	redir_error(int errnum, t_redircmd *rcmd)
 {
-	t_execcmd	*ecmd;
-	int	i;
-	
-	ft_memset((void *)ecmd, 0, sizeof(t_execcmd));
-	i = 1;
 	if (errnum == ENOENT)
 	{
-		if (rcmd->cmd->type == 1)
-		{
-			ecmd = (t_execcmd *)rcmd->cmd;
-			while (ecmd->arg[i])
-			{
-				ft_putstr_fd(ecmd->arg[0], STDERR_FILENO);
-				ft_putstr_fd(": ", STDERR_FILENO);
-				ft_putstr_fd(ecmd->arg[i], STDERR_FILENO);
-				ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-				i ++;
-			}
-		}
+		ft_putstr_fd("msh: ", STDERR_FILENO);
+		ft_putstr_fd(rcmd->file, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(strerror(errnum), STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
 	}
 	else if (errnum == EACCES)
 	{
 		ft_putstr_fd("msh: ", STDERR_FILENO);
 		ft_putstr_fd(rcmd->file, STDERR_FILENO);
-		ft_putstr_fd(": Permission denies\n", STDERR_FILENO);
+		ft_putstr_fd(": Permission denied\n", STDERR_FILENO); //dunno if change to strerror
+	}
+	else if (errnum == EMFILE || errnum == ENFILE)
+		ft_putstr_fd("msh: Too many open files\n", STDERR_FILENO);
+	else if (errnum == ENOSPC)
+	{
+		if (rcmd->fd == 0)
+		{
+			ft_putstr_fd("msh: ", STDERR_FILENO);
+			ft_putstr_fd(rcmd->file, STDERR_FILENO);
+			ft_putstr_fd(": No space left on device\n", STDERR_FILENO);
+		}
+		if (rcmd->fd == 1)
+			ft_putstr_fd("msh: cannot create file: No space left on device\n", STDERR_FILENO);
 	}
 }
 
 void	redir_cmd(t_redircmd *rcmd)
 {
 	close(rcmd->fd);
-	rcmd->fd = open(rcmd->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	rcmd->fd = open(rcmd->file, rcmd->mode, 0644);
 	if (rcmd->fd == -1)
+	{
 		redir_error(errno, rcmd);
+		exit(-1); //geht das?
+	}
 	exec_cmd(rcmd->cmd);
 }
