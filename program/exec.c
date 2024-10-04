@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:48:13 by spitul            #+#    #+#             */
-/*   Updated: 2024/10/03 18:11:19 by spitul           ###   ########.fr       */
+/*   Updated: 2024/10/04 15:29:12 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,12 @@ void 	exec_cmd(t_cmd *cmd, char **env)
 	}
 	else if (cmd->type == 3)
 	{
-		
+		pcmd = (t_pipecmd *)cmd;
+		pipe_cmd(pcmd);
 	}
-	
+	else
+		exit (-1); //where is this returned and what happens to it
+}
 
 void	_exec_cmd(char *pathcmd, t_execcmd *cmd, char **env)
 {

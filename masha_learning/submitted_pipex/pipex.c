@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 02:45:09 by myakoven          #+#    #+#             */
-/*   Updated: 2024/02/22 13:42:34 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:15:38 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	main(int argc, char **argv, char **env)
 	int		pid;
 	int		fdfiles[2];
 
+	i = 0;
 	if (argc != 5)
 		return (pip_error(1));
 	i = 2;
@@ -81,7 +82,7 @@ void	execute(char *cmd, char **env, char *cmdpath)
 	if (execve(path, command, env) == -1)
 	{
 		ft_freetab(command, 0);
-		error_handler_exit(cmd);
+		error_handler_exit("help me");
 	}
 }
 
@@ -143,7 +144,7 @@ error_handler function
 char	*firstw;
 
 firstw = first_word(str, ' ');
-if (ft_strncmp(firstw, " ", 2) == 0)
+if	(ft_strncmp(firstw, " ", 2) == 0)
 free(firstw);
 
 
@@ -167,8 +168,8 @@ if (!pid)
 else
 {
 
-	// parent process asssigns the read end to std_in and 
-	// doesn't evaporate next function will automatically 
+	// parent process asssigns the read end to std_in and
+	// doesn't evaporate next function will automatically
 	// read from std in which is now the read end of the pipe
 
 	close(p_fd[1]);

@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/22 16:01:29 by spitul           ###   ########.fr       */
+/*   Updated: 2024/10/04 15:44:25 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "structs.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>

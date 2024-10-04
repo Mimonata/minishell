@@ -6,27 +6,28 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 16:34:23 by spitul            #+#    #+#             */
-/*   Updated: 2024/10/03 18:39:30 by spitul           ###   ########.fr       */
+/*   Updated: 2024/10/04 20:35:27 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//error msg need to go to stderr
+// error msg need to go to stderr
 
-// spitul@c3a6c6:~$ cat <text2.txt 
+// spitul@c3a6c6:~$ cat <text2.txt
 // how about
 // some text
-// spitul@c3a6c6:~$ cat <text2.txt <bibi 
+// spitul@c3a6c6:~$ cat <text2.txt <bibi
 // bash: bibi: No such file or directory
 
-//cases when outfile is not being created 
-//1. when set -e or set -o errexit is being used?? because the script terminates weil open negativ so no time for file creation
-//2. using non existent dir in the path
-//return bash: /non_existent_dir/output.txt: No such file or directory
-//3. if on the file path there are non writeable directories
+// cases when outfile is not being created
+// 1. when set -e or set
+//-o errexit is being used?? because the script terminates weil open negativ so no time for file creation
+// 2. using non existent dir in the path
+// return bash: /non_existent_dir/output.txt: No such file or directory
+// 3. if on the file path there are non writeable directories
 
-void	redir_error(int errnum, t_redircmd *rcmd)
+void	redir_error(int errnum, t_redircmd *rcmd, char *str)
 {
 	if (errnum == ENOENT)
 	{
@@ -40,7 +41,8 @@ void	redir_error(int errnum, t_redircmd *rcmd)
 	{
 		ft_putstr_fd("msh: ", STDERR_FILENO);
 		ft_putstr_fd(rcmd->file, STDERR_FILENO);
-		ft_putstr_fd(": Permission denied\n", STDERR_FILENO); //dunno if change to strerror
+		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+		// dunno if change to strerror
 	}
 	else if (errnum == EMFILE || errnum == ENFILE)
 		ft_putstr_fd("msh: Too many open files\n", STDERR_FILENO);
@@ -48,13 +50,41 @@ void	redir_error(int errnum, t_redircmd *rcmd)
 	{
 		if (rcmd->fd == 0)
 		{
-			ft_putstr_fd("msh: ", STDERR_FILENO);
+			perror("msh: ") ft_putstr_fd("msh: ", STDERR_FILENO);
 			ft_putstr_fd(rcmd->file, STDERR_FILENO);
 			ft_putstr_fd(": No space left on device\n", STDERR_FILENO);
 		}
 		if (rcmd->fd == 1)
-			ft_putstr_fd("msh: cannot create file: No space left on device\n", STDERR_FILENO);
+			ft_putstr_fd("msh: cannot create file: No space left on device\n",
+				2);
 	}
+}
+/*
+Input NULL or errline and/or errarg.
+If arg is profive, then file name or command name is printed after msh: .
+If errline is provided, an error is printed to the screen,
+If errarg is provided, it is appended to the error string
+*/
+int	print_error(char *arg, char *errline, char *errarg)
+{
+	ft_putstr_fd("msh: ", 2);
+	if (arg)
+	{
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(": ", 2)
+	}
+	if (errline)
+		ft_putstr_fd(errline, 2);
+	if (errarg)
+	{
+		// CHECK THIS with ` backticks and single quotes: `>>'
+		ft_putstr_fd("`", 2);
+		ft_putstr_fd(errarg, 2);
+		ft_putstr_fd("\'", 2);
+		// free(errarg); // this is NOT allocated
+	}
+	ft_putstr_fd("\n", 2);
+	return (0);
 }
 
 void	redir_cmd(t_redircmd *rcmd)
@@ -64,7 +94,65 @@ void	redir_cmd(t_redircmd *rcmd)
 	if (rcmd->fd == -1)
 	{
 		redir_error(errno, rcmd);
-		exit(-1); //geht das?
+		exit(-1); // geht das?
 	}
 	exec_cmd(rcmd->cmd);
+}
+
+// Broken Pipe Error (SIGPIPE): A broken pipe can
+//  happen if the command on the reading end of the pipe terminates
+// unexpectedly before the writing process finishes. In this case,
+// the writing command (the one trying to send data to the pipe)
+//  will receive a SIGPIPE signal and often terminate.
+int	pipe_error(t_pipecmd *pcmd)
+{
+	t_execcmd	*ecmd;
+
+	ft_memset((void *)ecmd, 0, sizeof(ecmd));
+	ecmd = (t_execcmd *)(pcmd->left);
+	ft_putstr_fd("msh: ", STDERR_FILENO);
+	ft_putstr_fd(ecmd->arg[0], STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	return (-1);
+}
+
+int	fork_error(void)
+{
+	ft_putstr_fd("msh: fork: retry: Resource temporarily unavailable",
+		STDERR_FILENO);
+	return (-1);
+}
+
+void	pipe_cmd(t_pipecmd *pcmd, t_tools *tools)
+{
+	int		pipefd[2];
+	pid_t	pid1;
+	pid_t	pid2;
+
+	if (pipe(pipefd) == -1)
+		exit(pipe_error(pcmd));
+	pid1 = fork();
+	if (pid1 == -1)
+		exit(fork_error());
+	if (pid1 == 0)
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
+		exec_cmd(pcmd->left);
+	}
+	pid2 = fork();
+	if (pid2 == -1)
+		exit(fork_error());
+	if (pid2 == 0)
+	{
+		close(pipefd[1]);
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
+		exec_cmd(pcmd->right);
+	}
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);
+	close(pipefd[0]);
+	close(pipefd[1]);
 }

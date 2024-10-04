@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 02:45:09 by myakoven          #+#    #+#             */
-/*   Updated: 2024/02/22 15:10:55 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:54:15 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	error_handler_exit(char *str)
 	if (!str)
 		exit(1);
 	if (is_spaces_only(str))
-		ft_putstr_fd("pipex: No such file of directory: \n", 2);
+		ft_putstr_fd("pipex: No such file or directory: \n", 2);
 	else
 	{
 		ft_putstr_fd("pipex: ", 2);
