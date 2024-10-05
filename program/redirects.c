@@ -27,38 +27,39 @@
 // return bash: /non_existent_dir/output.txt: No such file or directory
 // 3. if on the file path there are non writeable directories
 
-void	redir_error(int errnum, t_redircmd *rcmd, char *str)
+void	redir_error(int errnum, t_redircmd *rcmd)
 {
 	if (errnum == ENOENT)
 	{
-		ft_putstr_fd("msh: ", STDERR_FILENO);
-		ft_putstr_fd(rcmd->file, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putstr_fd(strerror(errnum), STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
+		ft_putstr_fd("msh: ", 2);
+		ft_putstr_fd(rcmd->file, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(strerror(errnum), 2);
+		ft_putstr_fd("\n", 2);
 	}
 	else if (errnum == EACCES)
 	{
-		ft_putstr_fd("msh: ", STDERR_FILENO);
-		ft_putstr_fd(rcmd->file, STDERR_FILENO);
-		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+		ft_putstr_fd("msh: ", 2);
+		ft_putstr_fd(rcmd->file, 2);
+		ft_putstr_fd(": Permission denied\n", 2);
 		// dunno if change to strerror
 	}
 	else if (errnum == EMFILE || errnum == ENFILE)
-		ft_putstr_fd("msh: Too many open files\n", STDERR_FILENO);
+		ft_putstr_fd("msh: Too many open files\n", 2);
 	else if (errnum == ENOSPC)
 	{
 		if (rcmd->fd == 0)
 		{
-			perror("msh: ") ft_putstr_fd("msh: ", STDERR_FILENO);
-			ft_putstr_fd(rcmd->file, STDERR_FILENO);
-			ft_putstr_fd(": No space left on device\n", STDERR_FILENO);
+			ft_putstr_fd("msh: ", 2);
+			ft_putstr_fd(rcmd->file, 2);
+			ft_putstr_fd(": No space left on device\n", 2);
 		}
 		if (rcmd->fd == 1)
 			ft_putstr_fd("msh: cannot create file: No space left on device\n",
 				2);
 	}
 }
+
 /*
 Input NULL or errline and/or errarg.
 If arg is profive, then file name or command name is printed after msh: .
@@ -110,16 +111,15 @@ int	pipe_error(t_pipecmd *pcmd)
 
 	ft_memset((void *)ecmd, 0, sizeof(ecmd));
 	ecmd = (t_execcmd *)(pcmd->left);
-	ft_putstr_fd("msh: ", STDERR_FILENO);
-	ft_putstr_fd(ecmd->arg[0], STDERR_FILENO);
-	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	ft_putstr_fd("msh: ", 2);
+	ft_putstr_fd(ecmd->arg[0], 2);
+	ft_putstr_fd(": command not found\n", 2);
 	return (-1);
 }
 
 int	fork_error(void)
 {
-	ft_putstr_fd("msh: fork: retry: Resource temporarily unavailable",
-		STDERR_FILENO);
+	ft_putstr_fd("msh: fork: retry: Resource temporarily unavailable", 2);
 	return (-1);
 }
 
