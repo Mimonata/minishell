@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 16:34:23 by spitul            #+#    #+#             */
-/*   Updated: 2024/10/04 20:35:27 by spitul           ###   ########.fr       */
+/*   Updated: 2024/10/06 18:15:12 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,34 @@
 // 2. using non existent dir in the path
 // return bash: /non_existent_dir/output.txt: No such file or directory
 // 3. if on the file path there are non writeable directories
+//**********************************************************************
+// Broken Pipe Error (SIGPIPE): A broken pipe can
+//  happen if the command on the reading end of the pipe terminates
+// unexpectedly before the writing process finishes. In this case,
+// the writing command (the one trying to send data to the pipe)
+//  will receive a SIGPIPE signal and often terminate.
 
-int	errno_print(int errnum, t_redircmd *rcmd)
+int	pipe_error(t_pipecmd *pcmd)
+{
+	t_execcmd	*ecmd;
+
+	ft_memset((void *)ecmd, 0, sizeof(ecmd));
+	ecmd = (t_execcmd *)(pcmd->left);
+	ft_putstr_fd("msh: ", 2);
+	ft_putstr_fd(ecmd->arg[0], 2);
+	ft_putstr_fd(": command not found\n", 2);
+	return (-1);
+}
+int	fork_error(void)
+{
+	ft_putstr_fd("msh: fork: retry: Resource temporarily unavailable", 2);
+	return (-1);
+}
+
+int	redir_error(int errnum, t_redircmd *rcmd)
 {
 	if (errnum == EMFILE || errnum == ENFILE)
 		ft_putstr_fd("msh: Too many open files\n", 2);
-	else if (errnum == ENOSPC)
-	{
-		if (rcmd->fd == 0)
-		{
-			ft_putstr_fd("msh: ", 2);
-			ft_putstr_fd(rcmd->file, 2);
-			ft_putstr_fd(": No space left on device\n", 2);
-		}
-		if (rcmd->fd == 1)
-			ft_putstr_fd("msh: cannot create file: No space left on device\n", 2);
-	}
 	else
 	{
 		ft_putstr_fd("msh: ", 2);
@@ -86,31 +98,8 @@ void	redir_cmd(t_redircmd *rcmd)
 	close(rcmd->fd);
 	rcmd->fd = open(rcmd->file, rcmd->mode, 0644);
 	if (rcmd->fd == -1)
-		exit(errno_print(errno, rcmd));
+		exit(redir_error(errno, rcmd));
 	exec_cmd(rcmd->cmd);
-}
-
-// Broken Pipe Error (SIGPIPE): A broken pipe can
-//  happen if the command on the reading end of the pipe terminates
-// unexpectedly before the writing process finishes. In this case,
-// the writing command (the one trying to send data to the pipe)
-//  will receive a SIGPIPE signal and often terminate.
-int	pipe_error(t_pipecmd *pcmd)
-{
-	t_execcmd	*ecmd;
-
-	ft_memset((void *)ecmd, 0, sizeof(ecmd));
-	ecmd = (t_execcmd *)(pcmd->left);
-	ft_putstr_fd("msh: ", 2);
-	ft_putstr_fd(ecmd->arg[0], 2);
-	ft_putstr_fd(": command not found\n", 2);
-	return (-1);
-}
-
-int	fork_error(void)
-{
-	ft_putstr_fd("msh: fork: retry: Resource temporarily unavailable", 2);
-	return (-1);
 }
 
 void	pipe_cmd(t_pipecmd *pcmd, t_tools *tools)
