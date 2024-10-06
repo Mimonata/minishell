@@ -27,24 +27,9 @@
 // return bash: /non_existent_dir/output.txt: No such file or directory
 // 3. if on the file path there are non writeable directories
 
-void	redir_error(int errnum, t_redircmd *rcmd)
+int	errno_print(int errnum, t_redircmd *rcmd)
 {
-	if (errnum == ENOENT)
-	{
-		ft_putstr_fd("msh: ", 2);
-		ft_putstr_fd(rcmd->file, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(strerror(errnum), 2);
-		ft_putstr_fd("\n", 2);
-	}
-	else if (errnum == EACCES)
-	{
-		ft_putstr_fd("msh: ", 2);
-		ft_putstr_fd(rcmd->file, 2);
-		ft_putstr_fd(": Permission denied\n", 2);
-		// dunno if change to strerror
-	}
-	else if (errnum == EMFILE || errnum == ENFILE)
+	if (errnum == EMFILE || errnum == ENFILE)
 		ft_putstr_fd("msh: Too many open files\n", 2);
 	else if (errnum == ENOSPC)
 	{
@@ -55,9 +40,17 @@ void	redir_error(int errnum, t_redircmd *rcmd)
 			ft_putstr_fd(": No space left on device\n", 2);
 		}
 		if (rcmd->fd == 1)
-			ft_putstr_fd("msh: cannot create file: No space left on device\n",
-				2);
+			ft_putstr_fd("msh: cannot create file: No space left on device\n", 2);
 	}
+	else
+	{
+		ft_putstr_fd("msh: ", 2);
+		ft_putstr_fd(rcmd->file, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(strerror(errnum), 2);
+		ft_putstr_fd("\n", 2);
+	}
+	return (-1);
 }
 
 /*
@@ -93,10 +86,7 @@ void	redir_cmd(t_redircmd *rcmd)
 	close(rcmd->fd);
 	rcmd->fd = open(rcmd->file, rcmd->mode, 0644);
 	if (rcmd->fd == -1)
-	{
-		redir_error(errno, rcmd);
-		exit(-1); // geht das?
-	}
+		exit(errno_print(errno, rcmd));
 	exec_cmd(rcmd->cmd);
 }
 
