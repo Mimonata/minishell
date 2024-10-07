@@ -79,7 +79,7 @@ char	*check_cmd_in_path(char *path, t_execcmd *cmd)
 	}
 }
 
-void	check_cmd(char **env, t_execcmd *cmd)
+void	check_cmd(char **env, t_execcmd *ecmd)
 {
 	char	*path;
 	char	*pathcmd;
@@ -94,12 +94,14 @@ void	check_cmd(char **env, t_execcmd *cmd)
 	split_path = ft_split(path, ":");
 	if (!split_path)
 		return ; // exit failure? 
+	if (check_builtin(ecmd->arg[0]))
+		return ;
 	while (split_path[i])
 	{
-		pathcmd = check_cmd_in_path(split_path[i], cmd->arg[0]);
+		pathcmd = check_cmd_in_path(split_path[i], ecmd->arg[0]);
 		if (pathcmd != NULL)
 		{
-			exec_cmd(pathcmd, cmd, env); //pathcmd has to be freed
+			exec_cmd(pathcmd, ecmd, env); //pathcmd has to be freed
 			free (pathcmd);
 			break ;
 		}
@@ -107,6 +109,7 @@ void	check_cmd(char **env, t_execcmd *cmd)
 	}
 	free_tab(split_path);
 }
+
 void 	exec_cmd(t_cmd *cmd, char **env)
 {
 	t_execcmd	*ecmd;
@@ -135,7 +138,7 @@ void 	exec_cmd(t_cmd *cmd, char **env)
 		exit (-1); //where is this returned and what happens to it
 }
 
-void	_exec_cmd(char *pathcmd, t_execcmd *cmd, char **env)
+/*void	_exec_cmd(char *pathcmd, t_execcmd *cmd, char **env)
 {
 	pid_t	pid;
 	
@@ -150,5 +153,5 @@ void	_exec_cmd(char *pathcmd, t_execcmd *cmd, char **env)
 	}
 	else
 		waitpid(pid, NULL, 0);
-}
+}*/
 

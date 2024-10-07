@@ -44,7 +44,7 @@ int	pipe_error(t_pipecmd *pcmd)
 	ft_putstr_fd(": command not found\n", 2);
 	return (-1);
 }
-int	fork_error(void)
+int	fork_error(void) //double check if this truely like this
 {
 	ft_putstr_fd("msh: fork: retry: Resource temporarily unavailable", 2);
 	return (-1);
