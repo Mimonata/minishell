@@ -101,7 +101,7 @@ void	check_cmd(char **env, t_execcmd *ecmd)
 		pathcmd = check_cmd_in_path(split_path[i], ecmd->arg[0]);
 		if (pathcmd != NULL)
 		{
-			exec_cmd(pathcmd, ecmd, env); //pathcmd has to be freed
+			exec_path(pathcmd, ecmd, env); //pathcmd has to be freed
 			free (pathcmd);
 			break ;
 		}
@@ -109,6 +109,8 @@ void	check_cmd(char **env, t_execcmd *ecmd)
 	}
 	free_tab(split_path);
 }
+
+int	exec_path(char *pathcmd, t_execcmd *ecmd, )
 
 void 	exec_cmd(t_cmd *cmd, char **env)
 {
