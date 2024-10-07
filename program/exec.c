@@ -6,13 +6,13 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:48:13 by spitul            #+#    #+#             */
-/*   Updated: 2024/10/04 15:29:12 by spitul           ###   ########.fr       */
+/*   Updated: 2024/10/07 20:10:28 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
 
-//error msg need to go to stderr
+// error msg need to go to stderr
 
 static void	init_builtin_array(char **b)
 {
@@ -33,7 +33,7 @@ int	check_builtin(char *s)
 
 	init_builtin_array(builtins);
 	len = ft_strlen(s);
-	ft_bzero((void *)a, 7 * sizeof(int)); 
+	ft_bzero((void *)a, 7 * sizeof(int));
 	if (len == 4 && ft_strncmp(s, builtins[0], len) == 0)
 		a[0] = echo();
 	else if (len == 2 && ft_strncmp(s, builtins[1], len) == 0)
@@ -64,22 +64,27 @@ char	*check_cmd_in_path(char *path, t_execcmd *cmd)
 	cmdpath = ft_strjoin(temp, cmd->arg[0]);
 	if (!cmdpath)
 		return (NULL);
-	free (temp);
-	if (access(cmdpath, F_OK | X_OK) == 0)
+	free(temp);
+	if (access(cmdpath, F_OK) == 0)
+	{
+		if (access(cmdpath, X_OK) != 0)
+		{
+			free(cmdpath);
+			; /// PRINT ERROR
+			return (NULL);
+		}
 		return (cmdpath);
-	else
-	{ 
-		if (access(cmdpath, F_OK) != 0)
-			printf("msh: command not found: %s\n", cmd->arg[0]);
-		else if (access(cmdpath, X_OK) != 0) //insufficient rights 
-	//kommt das hier oder anderswo - ist es nur ein problem bei args?
-			printf("msh: permission denied %s\n", cmd->arg[0]);
-		free (cmdpath);
-		return (NULL); //TODO error handling - do we have to always write in the strerror
 	}
+	// else if (access(cmdpath, X_OK) != 0) // insufficient rights
+	// 	// kommt das hier oder anderswo - ist es nur ein problem bei args?
+	// 	// printf("msh: permission denied %s\n", cmd->arg[0]);
+	free(cmdpath);
+	return (NULL); // TODO error handling
+					// // -do we have to always write in the strerror
+}
 }
 
-void	check_cmd(char **env, t_execcmd *ecmd)
+void	check_cmd(t_tools *tool, t_execcmd *ecmd)
 {
 	char	*path;
 	char	*pathcmd;
@@ -93,7 +98,7 @@ void	check_cmd(char **env, t_execcmd *ecmd)
 		return ;
 	split_path = ft_split(path, ":");
 	if (!split_path)
-		return ; // exit failure? 
+		return ; // exit failure?
 	if (check_builtin(ecmd->arg[0]))
 		return ;
 	while (split_path[i])
@@ -101,23 +106,38 @@ void	check_cmd(char **env, t_execcmd *ecmd)
 		pathcmd = check_cmd_in_path(split_path[i], ecmd->arg[0]);
 		if (pathcmd != NULL)
 		{
-			exec_path(pathcmd, ecmd, env); //pathcmd has to be freed
-			free (pathcmd);
+			exec_path(pathcmd, ecmd, env); // pathcmd has to be freed
+			free(pathcmd);
 			break ;
 		}
-		i ++;
+		i++;
 	}
+	// command not found
 	free_tab(split_path);
 }
 
-int	exec_path(char *pathcmd, t_execcmd *ecmd, )
+int	exec_path(char *pathcmd, t_execcmd *ecmd, t_tools *tool)
+{
+	pid_t	pid;
 
-void 	exec_cmd(t_cmd *cmd, char **env)
+	pid = fork();
+	if (pid == -1)
+		exit(fork_error());
+	if (pid == 0)
+	{
+		if (execve(pathcmd, ecmd->arg, tool->env) == -1)
+			printf("msh: %s: no such file or directory\n", cmd->arg[0]);
+	}
+	else
+		waitpid(pid, NULL, 0);
+}
+
+void	exec_cmd(t_cmd *cmd, char **env)
 {
 	t_execcmd	*ecmd;
 	t_redircmd	*rcmd;
 	t_pipecmd	*pcmd;
-	
+
 	ft_memset((void *)ecmd, 0, sizeof(*ecmd));
 	ft_memset((void *)rcmd, 0, sizeof(*rcmd));
 	ft_memset((void *)pcmd, 0, sizeof(*pcmd));
@@ -137,13 +157,13 @@ void 	exec_cmd(t_cmd *cmd, char **env)
 		pipe_cmd(pcmd);
 	}
 	else
-		exit (-1); //where is this returned and what happens to it
+		exit(-1); // where is this returned and what happens to it
 }
 
 /*void	_exec_cmd(char *pathcmd, t_execcmd *cmd, char **env)
 {
 	pid_t	pid;
-	
+
 	pid = fork();
 	if (pid == -1)
 		return (FORK_ERROR);//dunno
@@ -156,4 +176,3 @@ void 	exec_cmd(t_cmd *cmd, char **env)
 	else
 		waitpid(pid, NULL, 0);
 }*/
-

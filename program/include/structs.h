@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/30 16:37:42 by spitul           ###   ########.fr       */
+/*   Updated: 2024/10/07 20:18:45 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_tools
 	size_t	env_len;
 	char	*line;
 	char	**lexed;
+	int	exit_code;
 }			t_tools;
 
 // typedef struct	cmd_s
