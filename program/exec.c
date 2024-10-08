@@ -99,20 +99,21 @@ void	check_cmd(t_tools *tool, t_execcmd *ecmd)
 	split_path = ft_split(path, ":");
 	if (!split_path)
 		return ; // exit failure?
-	if (check_builtin(ecmd->arg[0]))
-		return ;
 	while (split_path[i])
 	{
 		pathcmd = check_cmd_in_path(split_path[i], ecmd->arg[0]);
 		if (pathcmd != NULL)
 		{
-			exec_path(pathcmd, ecmd, env); // pathcmd has to be freed
+			exec_path(pathcmd, ecmd, env);
 			free(pathcmd);
 			break ;
 		}
 		i++;
 	}
+	if (!check_builtin(ecmd->arg[0]) && !execpath) //$?
+		return ;
 	// command not found
+	free(path);
 	free_tab(split_path);
 }
 
