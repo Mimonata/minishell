@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:48:13 by spitul            #+#    #+#             */
-/*   Updated: 2024/10/07 20:10:28 by spitul           ###   ########.fr       */
+/*   Updated: 2024/10/08 18:59:37 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,10 @@ int	exec_path(char *pathcmd, t_execcmd *ecmd, t_tools *tool)
 	if (pid == 0)
 	{
 		if (execve(pathcmd, ecmd->arg, tool->env) == -1)
-			printf("msh: %s: no such file or directory\n", cmd->arg[0]);
+			printf("msh: %s: no such file or directory\n", ecmd->arg[0]);
 	}
 	else
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &tool->exit_code, 0);
 }
 
 void	exec_cmd(t_cmd *cmd, char **env)
@@ -139,9 +139,6 @@ void	exec_cmd(t_cmd *cmd, char **env)
 	t_redircmd	*rcmd;
 	t_pipecmd	*pcmd;
 
-	ft_memset((void *)ecmd, 0, sizeof(*ecmd));
-	ft_memset((void *)rcmd, 0, sizeof(*rcmd));
-	ft_memset((void *)pcmd, 0, sizeof(*pcmd));
 	if (cmd->type == 1)
 	{
 		ecmd = (t_execcmd *)cmd;
