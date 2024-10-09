@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:48:13 by spitul            #+#    #+#             */
-/*   Updated: 2024/10/08 18:59:37 by spitul           ###   ########.fr       */
+/*   Updated: 2024/10/09 18:54:49 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,14 @@ char	*check_cmd_in_path(char *path, t_execcmd *cmd)
 	free(temp);
 	if (access(cmdpath, F_OK) == 0)
 	{
-		if (access(cmdpath, X_OK) != 0)
+		if (access(cmdpath, X_OK) != 0) //cannot execute cannot access
 		{
 			free(cmdpath);
-			; /// PRINT ERROR
+			ft_putstr_fd("msh: ", 2);
+			ft_putstr_fd(strerror(errno), 2);
+			ft_putstr_fd(": ", 2);
+			ft_putchar_fd(cmd->arg[0], 2);
+			ft_putstr_fd("\n", 2);
 			return (NULL);
 		}
 		return (cmdpath);
@@ -79,9 +83,24 @@ char	*check_cmd_in_path(char *path, t_execcmd *cmd)
 	// 	// kommt das hier oder anderswo - ist es nur ein problem bei args?
 	// 	// printf("msh: permission denied %s\n", cmd->arg[0]);
 	free(cmdpath);
-	return (NULL); // TODO error handling
-					// // -do we have to always write in the strerror
+	return (NULL);
 }
+
+int	exec_path(char *pathcmd, t_execcmd *ecmd, t_tools *tool)
+{
+	pid_t	pid;
+	int	status;
+
+	pid = fork();
+	if (pid == -1)
+		exit(fork_error());
+	if (pid == 0)
+	{
+		if (execve(pathcmd, ecmd->arg, tool->env) == -1)
+			printf("msh: %s: no such file or directory\n", ecmd->arg[0]);
+	}
+	else
+		waitpid(pid, &status, 0);
 }
 
 void	check_cmd(t_tools *tool, t_execcmd *ecmd)
@@ -110,27 +129,11 @@ void	check_cmd(t_tools *tool, t_execcmd *ecmd)
 		}
 		i++;
 	}
-	if (!check_builtin(ecmd->arg[0]) && !execpath) //$?
+	if (!check_builtin(ecmd->arg[0]) && !pathcmd) //$?
 		return ;
 	// command not found
 	free(path);
 	free_tab(split_path);
-}
-
-int	exec_path(char *pathcmd, t_execcmd *ecmd, t_tools *tool)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-		exit(fork_error());
-	if (pid == 0)
-	{
-		if (execve(pathcmd, ecmd->arg, tool->env) == -1)
-			printf("msh: %s: no such file or directory\n", ecmd->arg[0]);
-	}
-	else
-		waitpid(pid, &tool->exit_code, 0);
 }
 
 void	exec_cmd(t_cmd *cmd, char **env)
@@ -155,7 +158,7 @@ void	exec_cmd(t_cmd *cmd, char **env)
 		pipe_cmd(pcmd);
 	}
 	else
-		exit(-1); // where is this returned and what happens to it
+		exit(0);
 }
 
 /*void	_exec_cmd(char *pathcmd, t_execcmd *cmd, char **env)
