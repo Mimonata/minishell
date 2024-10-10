@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 16:34:23 by spitul            #+#    #+#             */
-/*   Updated: 2024/10/06 18:15:12 by spitul           ###   ########.fr       */
+/*   Updated: 2024/10/10 19:19:47 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,16 @@ int	fork_error(void) //double check if this truely like this
 	return (-1);
 }
 
-int	redir_error(int errnum, t_redircmd *rcmd)
+int	redir_error(t_redircmd *rcmd)
 {
-	if (errnum == EMFILE || errnum == ENFILE)
+	if (errno == EMFILE || errno == ENFILE)
 		ft_putstr_fd("msh: Too many open files\n", 2);
 	else
 	{
 		ft_putstr_fd("msh: ", 2);
 		ft_putstr_fd(rcmd->file, 2);
 		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(strerror(errnum), 2);
+		ft_putstr_fd(strerror(errno), 2);
 		ft_putstr_fd("\n", 2);
 	}
 	return (-1);
@@ -72,6 +72,7 @@ If arg is profive, then file name or command name is printed after msh: .
 If errline is provided, an error is printed to the screen,
 If errarg is provided, it is appended to the error string
 */
+
 int	print_error(char *arg, char *errline, char *errarg)
 {
 	ft_putstr_fd("msh: ", 2);
@@ -99,7 +100,8 @@ void	redir_cmd(t_redircmd *rcmd)
 	close(rcmd->fd);
 	rcmd->fd = open(rcmd->file, rcmd->mode, 0644);
 	if (rcmd->fd == -1)
-		exit(redir_error(errno, rcmd));
+	print_error(rcmd->cmd, strerror(errno), NULL);
+		exit(redir_error(rcmd));
 	exec_cmd(rcmd->cmd);
 }
 

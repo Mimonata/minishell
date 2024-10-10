@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:48:13 by spitul            #+#    #+#             */
-/*   Updated: 2024/10/09 18:54:49 by spitul           ###   ########.fr       */
+/*   Updated: 2024/10/10 20:08:40 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	error_exec(t_execcmd *cmd)
 	ft_putstr_fd("msh: ", 2);
 	ft_putstr_fd(strerror(errno), 2);
 	ft_putstr_fd(": ", 2);
+	//if
 	ft_putchar_fd(cmd->arg[0], 2);
 	ft_putstr_fd("\n", 2);
 }
@@ -76,10 +77,10 @@ char	*check_cmd_in_path(char *path, t_execcmd *cmd)
 	free(temp);
 	if (access(cmdpath, F_OK) == 0)
 	{
-		if (access(cmdpath, X_OK) != 0) //cannot execute cannot access
+		if (access(cmdpath, X_OK) != 0) // cannot execute cannot access
 		{
 			free(cmdpath);
-			error_exec(cmd);
+			error_exec(cmd); // return here optimize
 			return (NULL);
 		}
 		return (cmdpath);
@@ -94,7 +95,7 @@ char	*check_cmd_in_path(char *path, t_execcmd *cmd)
 int	exec_path(char *pathcmd, t_execcmd *ecmd, t_tools *tool)
 {
 	pid_t	pid;
-	int	status;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -102,7 +103,7 @@ int	exec_path(char *pathcmd, t_execcmd *ecmd, t_tools *tool)
 	if (pid == 0)
 	{
 		if (execve(pathcmd, ecmd->arg, tool->env) == -1)
-			error_exec(cmd); 
+			error_exec(ecmd);
 	}
 	else
 		waitpid(pid, &status, 0);
@@ -111,6 +112,15 @@ int	exec_path(char *pathcmd, t_execcmd *ecmd, t_tools *tool)
 	else if (WIFSIGNALED(status))
 		tool->exit_code = WTERMSIG(status) + 128;
 	return (0);
+}
+void	exec_shell(t_tools *tool, t_execcmd *ecmd)
+{
+	pid_t	pid;
+
+	pid =  fork();
+	if (pid == -1)
+		exit(fork_error());
+		
 }
 
 void	check_cmd(t_tools *tool, t_execcmd *ecmd)
@@ -122,26 +132,31 @@ void	check_cmd(t_tools *tool, t_execcmd *ecmd)
 
 	i = 0;
 	pathcmd = NULL;
-	path = get_env_var(env, "PATH");
-	if (!path)
+	if (ft_strncmp(ecmd->arg[0], "./minishell", 11))
+	{
+		exec_shell(tool, ecmd);
 		return ;
+	}
+	path = get_env_var(tool->env, "PATH");
+	if (!path)
+		return ; // exit failure error_exit(  ****, 1);
 	split_path = ft_split(path, ":");
-	if (!split_path)
-		return ; // exit failure?
 	free(path);
+	if (!split_path)
+		return ; // exit failure error_exit(  ****, 1);
 	while (split_path[i])
 	{
 		pathcmd = check_cmd_in_path(split_path[i], ecmd->arg[0]);
 		if (pathcmd != NULL)
 		{
-			exec_path(pathcmd, ecmd, env);
+			exec_path(pathcmd, ecmd, tool->env);
 			free(pathcmd);
 			break ;
 		}
 		i++;
 	}
 	if (!check_builtin(ecmd->arg[0]) && !pathcmd) //$?
-		error_exec(cmd);	// command not found
+		error_exec(ecmd);                         // command not found
 	free_tab(split_path);
 }
 
@@ -151,23 +166,23 @@ void	exec_cmd(t_cmd *cmd, char **env)
 	t_redircmd	*rcmd;
 	t_pipecmd	*pcmd;
 
-	if (cmd->type == 1)
+	if (cmd->type == EXEC)
 	{
 		ecmd = (t_execcmd *)cmd;
 		check_cmd(env, ecmd);
 	}
-	else if (cmd->type == 2)
+	else if (cmd->type == REDIR)
 	{
 		rcmd = (t_redircmd *)cmd;
 		redir_cmd(rcmd);
 	}
-	else if (cmd->type == 3)
+	else if (cmd->type == PIPE)
 	{
 		pcmd = (t_pipecmd *)cmd;
 		pipe_cmd(pcmd);
 	}
 	else
-		exit(0);
+		return (0);
 }
 
 /*void	_exec_cmd(char *pathcmd, t_execcmd *cmd, char **env)
