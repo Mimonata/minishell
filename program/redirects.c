@@ -37,7 +37,7 @@ int	pipe_error(t_pipecmd *pcmd)
 {
 	t_execcmd	*ecmd;
 
-	ft_memset((void *)ecmd, 0, sizeof(ecmd));
+	ecmd = NULL;
 	ecmd = (t_execcmd *)(pcmd->left);
 	ft_putstr_fd("msh: ", 2);
 	ft_putstr_fd(ecmd->arg[0], 2);

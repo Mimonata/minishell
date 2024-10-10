@@ -51,6 +51,15 @@ int	check_builtin(char *s)
 	return (a[0] || a[1] || a[2] || a[3] || a[4] || a[5] || a[6]);
 }
 
+void	error_exec(t_execcmd *cmd)
+{
+	ft_putstr_fd("msh: ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd(": ", 2);
+	ft_putchar_fd(cmd->arg[0], 2);
+	ft_putstr_fd("\n", 2);
+}
+
 char	*check_cmd_in_path(char *path, t_execcmd *cmd)
 {
 	char	*cmdpath;
@@ -70,11 +79,7 @@ char	*check_cmd_in_path(char *path, t_execcmd *cmd)
 		if (access(cmdpath, X_OK) != 0) //cannot execute cannot access
 		{
 			free(cmdpath);
-			ft_putstr_fd("msh: ", 2);
-			ft_putstr_fd(strerror(errno), 2);
-			ft_putstr_fd(": ", 2);
-			ft_putchar_fd(cmd->arg[0], 2);
-			ft_putstr_fd("\n", 2);
+			error_exec(cmd);
 			return (NULL);
 		}
 		return (cmdpath);
@@ -97,10 +102,15 @@ int	exec_path(char *pathcmd, t_execcmd *ecmd, t_tools *tool)
 	if (pid == 0)
 	{
 		if (execve(pathcmd, ecmd->arg, tool->env) == -1)
-			printf("msh: %s: no such file or directory\n", ecmd->arg[0]);
+			error_exec(cmd); 
 	}
 	else
 		waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		tool->exit_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		tool->exit_code = WTERMSIG(status) + 128;
+	return (0);
 }
 
 void	check_cmd(t_tools *tool, t_execcmd *ecmd)
@@ -118,6 +128,7 @@ void	check_cmd(t_tools *tool, t_execcmd *ecmd)
 	split_path = ft_split(path, ":");
 	if (!split_path)
 		return ; // exit failure?
+	free(path);
 	while (split_path[i])
 	{
 		pathcmd = check_cmd_in_path(split_path[i], ecmd->arg[0]);
@@ -130,9 +141,7 @@ void	check_cmd(t_tools *tool, t_execcmd *ecmd)
 		i++;
 	}
 	if (!check_builtin(ecmd->arg[0]) && !pathcmd) //$?
-		return ;
-	// command not found
-	free(path);
+		error_exec(cmd);	// command not found
 	free_tab(split_path);
 }
 
