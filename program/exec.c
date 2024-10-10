@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:48:13 by spitul            #+#    #+#             */
-/*   Updated: 2024/10/10 20:08:40 by spitul           ###   ########.fr       */
+/*   Updated: 2024/10/10 20:33:46 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ char	*check_cmd_in_path(char *path, t_execcmd *cmd)
 	if (!temp)
 		return (NULL);
 	cmdpath = ft_strjoin(temp, cmd->arg[0]);
+	free(temp);
 	if (!cmdpath)
 		return (NULL);
-	free(temp);
 	if (access(cmdpath, F_OK) == 0)
 	{
 		if (access(cmdpath, X_OK) != 0) // cannot execute cannot access
